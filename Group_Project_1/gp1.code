@@ -56,7 +56,7 @@ model.add(Dense(1,activation = 'sigmoid'))
 
 model.compile(optimizer = 'sgd', loss ='binary_crossentropy',metrics = ['accuracy'])
 
-model.fit(X_train,y_train,batch_siza = 32,epochs = 100,validation_data = (X_val,y_val))
+model.fit(X_train,y_train,batch_size = 32,epochs = 100,validation_data = (X_val,y_val))
 
 model.evaluate(X_test, y_test)[1]
 
