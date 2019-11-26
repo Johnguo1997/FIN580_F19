@@ -1,0 +1,34 @@
+import numpy as np 
+import pandas as pd 
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+
+
+
+
+df = pd.read_csv("Desktop/creditcard.csv")
+cols = ['Time','V1','V2', 'V3', 'V4' ,'V5' ,'V6', 'V7', 'V8', 'V9' ,'V10', 'V11', 'V12', 'V13', 'V14', 'V15' ,'V16', 'V17' ,'V18' ,'V19' ,'V20', 'V21', 'V22' ,'V23', 'V24', 'V25' ,'V26', 'V27', 'V28', 'Amount']
+X = df[cols].values
+y = df['Class'].values
+#X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.05, random_state = 1)
+X_train, X_val_and_test, y_train, y_val_and_test = train_test_split(X, y, test_size=0.05,random_state = 1)
+X_val, X_test, y_val, y_test = train_test_split(X_val_and_test, y_val_and_test, test_size=0.05)
+
+
+
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+
+model = Sequential()
+model.add(Dense(50, activation='relu', input_shape=(30,)))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(1,activation = 'sigmoid'))
+
+
+model.compile(optimizer = 'sgd', loss ='binary_crossentropy',metrics = ['accuracy'])
+
+model.fit(X_train,y_train,batch_siza = 32,epochs = 100,validation_data = (X_val,y_val))
+
+model.evaluate(X_test, y_test)[1]
