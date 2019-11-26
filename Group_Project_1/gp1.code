@@ -8,7 +8,34 @@ from sklearn import preprocessing
 
 
 df = pd.read_csv("Desktop/creditcard.csv")
+df.head()
+df.tail()
+df.describe()
+
+
+df.columns = ['Time','V1','V2', 'V3', 'V4' ,'V5' ,'V6', 'V7', 'V8', 'V9' ,'V10', 'V11', 'V12', 'V13', 'V14', 'V15' ,'V16', 'V17' ,'V18' ,'V19' ,'V20', 'V21', 'V22' ,'V23', 'V24', 'V25' ,'V26', 'V27', 'V28', 'Amount','Class']
+import seaborn as sns
+#Heatmap with all attributes showing correlation 
 cols = ['Time','V1','V2', 'V3', 'V4' ,'V5' ,'V6', 'V7', 'V8', 'V9' ,'V10', 'V11', 'V12', 'V13', 'V14', 'V15' ,'V16', 'V17' ,'V18' ,'V19' ,'V20', 'V21', 'V22' ,'V23', 'V24', 'V25' ,'V26', 'V27', 'V28', 'Amount']
+cm = np.corrcoef(df[cols].values.T)
+
+hm = sns.heatmap(cm,
+                 cbar=True,
+                 annot=False,
+                 square=True,
+                 fmt='.2f',
+                 annot_kws={'size': 15},
+                 yticklabels=cols,
+                 xticklabels=cols)
+
+plt.tight_layout()
+
+plt.show()
+
+
+
+
+#Split data for training and testing the neural network
 X = df[cols].values
 y = df['Class'].values
 #X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.05, random_state = 1)
@@ -32,3 +59,6 @@ model.compile(optimizer = 'sgd', loss ='binary_crossentropy',metrics = ['accurac
 model.fit(X_train,y_train,batch_siza = 32,epochs = 100,validation_data = (X_val,y_val))
 
 model.evaluate(X_test, y_test)[1]
+
+
+
